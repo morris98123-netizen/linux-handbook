@@ -1,0 +1,124 @@
+```bash
+#!/bin/bash
+# Linux Troubleshooting & Daily Commands – Automated Script
+# Run: bash linux_troubleshoot.sh
+
+echo "==============================="
+echo " SYSTEM HEALTH CHECK "
+echo "==============================="
+
+echo -e "\n► CPU & Memory Usage (top 5)"
+ps aux --sort=-%cpu | head -5
+ps aux --sort=-%mem | head -5
+
+echo -e "\n► Memory Usage"
+free -h
+
+echo -e "\n► Disk Usage"
+df -h
+
+echo -e "\n► Server Uptime"
+uptime
+
+echo "==============================="
+echo " PROCESS TROUBLESHOOTING "
+echo "==============================="
+
+echo -e "\n► Running Processes"
+ps aux
+
+echo -e "\nSearch for a process (example: nginx)"
+read -p "Enter process name: " pname
+ps aux | grep "$pname"
+
+echo -e "\nTo kill a process, enter PID"
+read -p "Enter PID (or skip): " pid
+if [[ ! -z "$pid" ]]; then
+    kill -9 "$pid"
+    echo "Process $pid killed."
+fi
+
+echo "==============================="
+echo " NETWORK TROUBLESHOOTING "
+echo "==============================="
+
+echo -e "\n► Ping Test (google.com)"
+ping -c 2 google.com
+
+echo -e "\n► HTTP Response Check"
+read -p "Enter URL (example: http://site.com): " url
+curl -I "$url"
+
+echo -e "\n► IP Address"
+ip a
+
+echo -e "\n► Ports Running"
+ss -tulnp
+
+echo "==============================="
+echo " LOG CHECK "
+echo "==============================="
+
+echo -e "\n► Last 20 lines from syslog"
+tail -n 20 /var/log/syslog 2>/dev/null || echo "Syslog not available."
+
+echo -e "\n► Last 20 lines from messages"
+tail -n 20 /var/log/messages 2>/dev/null || echo "messages log not available."
+
+echo -e "\n► Journalctl last 20 lines"
+journalctl -xe --no-pager | head -20
+
+echo "==============================="
+echo " FILE & DIRECTORY COMMANDS "
+echo "==============================="
+
+mkdir -p /tmp/test_dir
+touch /tmp/test_dir/test_file.txt
+
+echo -e "\nCreated folder & file: /tmp/test_dir/test_file.txt"
+ls -l /tmp/test_dir
+
+echo "==============================="
+echo " PERMISSIONS "
+echo "==============================="
+
+chmod 755 /tmp/test_dir/test_file.txt
+echo "Updated permissions: chmod 755 test_file.txt"
+
+echo "==============================="
+echo " SERVICES "
+echo "==============================="
+
+read -p "Enter service name (example: nginx): " service
+systemctl status "$service"
+
+echo "==============================="
+echo " USER MANAGEMENT "
+echo "===============================""
+
+read -p "Enter new username to add: " username
+useradd "$username" 2>/dev/null && echo "User created: $username"
+passwd "$username"
+
+id "$username"
+
+echo "==============================="
+echo " SCRIPT COMPLETED "
+echo "==============================="
+```
+
+---
+
+# ✅ **What this script does**
+
+This script automates:
+
+✔ System health checks
+✔ Process search & kill
+✔ Network troubleshooting
+✔ Log monitoring
+✔ File/directory operations
+✔ Permissions
+✔ Service status check
+✔ User creation + password
+✔ Disk/memory/CPU check
