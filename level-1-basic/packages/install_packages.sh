@@ -2,9 +2,9 @@
 
 if command -v apt >/dev/null; then
   sudo apt update
-  sudo apt install -y git nginx openjdk-17-jdk
+  sudo apt install -y 
 else
-  sudo dnf install -y git nginx java-17-openjdk-devel
+  sudo dnf install -y 
 fi
 
 sudo systemctl enable --now nginx
